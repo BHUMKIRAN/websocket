@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
+const { Schema } = mongoose;
 
-
-const ChatSchema = new mongoose.Schema(
+const ChatSchema = new Schema(
   {
     isGroup: {
       type: Boolean,
@@ -31,7 +31,7 @@ const ChatSchema = new mongoose.Schema(
       ref: "Message",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 ChatSchema.index({ participants: 1 });

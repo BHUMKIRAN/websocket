@@ -1,9 +1,9 @@
 import User from "../model/user.js";
 import forgetToken from "../model/forgetToken.js";
 import generateCode from "../lib/codeGenerator.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import forgetToken from "../model/forgetToken.js";
+import nodemailer from "nodemailer";
 
 const register = async (req, res) => {
   const { name, email, phone, password } = req.body;
@@ -22,16 +22,20 @@ const register = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newuser = User.create({
+    const newuser = await User.create({
       name,
       email,
       phone,
       password: hashedPassword,
     });
 
-    const token = jwt.sign({ userId: newuser._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
+    const token = jwt.sign(
+      { userId: newuser._id },
+      process.env.JWT_SECRET || "secret",
+      {
+        expiresIn: "7d",
+      },
+    );
 
     return res.status(201).json({ token, user: newuser });
   } catch (error) {
@@ -52,9 +56,13 @@ const login = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid  password" });
     }
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET || "secret",
+      {
+        expiresIn: "7d",
+      },
+    );
     return res.status(200).json({ token, user });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
@@ -69,7 +77,7 @@ const forgotPassword = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const tokenDoc = await ForgetToken.create({
+    const tokenDoc = await forgetToken.create({
       userId: user._id,
       token: generateCode(),
       expiresAt: new Date(Date.now() + 3600000),
@@ -124,7 +132,7 @@ const resetPassword = async (req, res) => {
     await user.save();
 
     // delete token after use
-    await ForgetToken.deleteOne({ userId: user._id });
+    await forgetToken.deleteOne({ userId: user._id });
 
     return res.status(200).json({
       message: "Password reset successful",

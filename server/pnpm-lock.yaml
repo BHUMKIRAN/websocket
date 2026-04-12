@@ -17,9 +17,6 @@ importers:
       cors:
         specifier: ^2.8.6
         version: 2.8.6
-      crypto:
-        specifier: ^1.0.1
-        version: 1.0.1
       dotenv:
         specifier: ^17.4.1
         version: 17.4.1
@@ -29,9 +26,6 @@ importers:
       graphql:
         specifier: ^16.13.1
         version: 16.13.2
-      http:
-        specifier: 0.0.1-security
-        version: 0.0.1-security
       jsonwebtoken:
         specifier: ^9.0.3
         version: 9.0.3
@@ -41,6 +35,9 @@ importers:
       mongoosh:
         specifier: ^0.0.7
         version: 0.0.7
+      nodemailer:
+        specifier: ^6.9.4
+        version: 6.10.1
       nodemon:
         specifier: ^3.1.14
         version: 3.1.14
@@ -773,10 +770,6 @@ packages:
     resolution: {integrity: sha512-tJtZBBHA6vjIAaF6EnIaq6laBBP9aq/Y3ouVJjEfoHbRBcHBAHYcMh/w8LDrk2PvIMMq8gmopa5D4V8RmbrxGw==}
     engines: {node: '>= 0.10'}
 
-  crypto@1.0.1:
-    resolution: {integrity: sha512-VxBKmeNcqQdiUQUW2Tzq0t377b54N2bMtXO/qiLa+6eRRmmC4qT3D4OnTGoT/U6O9aklQ/jTwbOtRMTTY8G0Ig==}
-    deprecated: This package is no longer supported. It's now a built-in Node module. If you've depended on crypto, you should switch to the one that's built-in.
-
   cssfilter@0.0.10:
     resolution: {integrity: sha512-FAaLDaplstoRsDR8XGYH51znUN0UY7nMc6Z9/fvE8EXGwvJE9hu7W2vHwx1+bd6gCYnln9nLbzxFTrcO9YQDZw==}
 
@@ -977,9 +970,6 @@ packages:
   http-errors@2.0.1:
     resolution: {integrity: sha512-4FbRdAX+bSdmo4AUFuS0WNiPz8NgFt+r8ThgNWmlrjQjt1Q7ZR9+zTlce2859x4KSXrwIsaeTqDoKQmtP8pLmQ==}
     engines: {node: '>= 0.8'}
-
-  http@0.0.1-security:
-    resolution: {integrity: sha512-RnDvP10Ty9FxqOtPZuxtebw1j4L/WiqNMDtuc1YMH1XQm5TgDRaR1G9u8upL6KD1bXHSp9eSXo/ED+8Q7FAr+g==}
 
   iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
@@ -1261,6 +1251,10 @@ packages:
     resolution: {tarball: https://codeload.github.com/takamin/node-getopt/tar.gz/a94ecd2791f28b89108a001d5e5f51d632dbe671}
     version: 0.3.3-forked-by-takamin
     engines: {node: '>= 0.6.0'}
+
+  nodemailer@6.10.1:
+    resolution: {integrity: sha512-Z+iLaBGVaSjbIzQ4pX6XV41HrooLsQ10ZWPUehGmuantvzWoDVBnmsdUcOIDM1t+yPor5pDhVlDESgOMEGxhHA==}
+    engines: {node: '>=6.0.0'}
 
   nodemon@3.1.14:
     resolution: {integrity: sha512-jakjZi93UtB3jHMWsXL68FXSAosbLfY0In5gtKq3niLSkrWznrVBzXFNOEMJUfc9+Ke7SHWoAZsiMkNP3vq6Jw==}
@@ -2818,8 +2812,6 @@ snapshots:
       object-assign: 4.1.1
       vary: 1.1.2
 
-  crypto@1.0.1: {}
-
   cssfilter@0.0.10: {}
 
   debug@2.6.9:
@@ -3060,8 +3052,6 @@ snapshots:
       setprototypeof: 1.2.0
       statuses: 2.0.2
       toidentifier: 1.0.1
-
-  http@0.0.1-security: {}
 
   iconv-lite@0.4.24:
     dependencies:
@@ -3330,6 +3320,8 @@ snapshots:
       whatwg-url: 5.0.0
 
   node-getopt@https://codeload.github.com/takamin/node-getopt/tar.gz/a94ecd2791f28b89108a001d5e5f51d632dbe671: {}
+
+  nodemailer@6.10.1: {}
 
   nodemon@3.1.14:
     dependencies:

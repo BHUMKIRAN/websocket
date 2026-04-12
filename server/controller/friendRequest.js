@@ -1,52 +1,89 @@
-import FriendRequest from "../models/FriendRequest.js";
+import FriendRequest from "../model/friendRequest.js";
 
-// SEND REQUEST
 const sendRequest = async (req, res) => {
-  const { to } = req.body;
+  try {
+    const { to } = req.body;
 
-  const existingRequest = await FriendRequest.findOne({
-    from: req.user.id,
-    to,
-  });
+    if (!to) {
+      return res.status(400).json({ error: "Receiver required" });
+    }
 
-  if (existingRequest) {
-    return res.status(400).json({ error: "Friend request already sent" });
+    // prevent duplicate request both ways
+    const existingRequest = await FriendRequest.findOne({
+      $or: [
+        { from: req.user._id, to },
+        { from: to, to: req.user._id },
+      ],
+    });
+
+    if (existingRequest) {
+      return res.status(400).json({ error: "Request already exists" });
+    }
+
+    const request = await FriendRequest.create({
+      from: req.user._id,
+      to,
+    });
+
+    return res.status(201).json({
+      message: "Friend request sent",
+      request,
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
   }
-
-  const request = await FriendRequest.create({
-    from: req.user.id,
-    to,
-  });
 };
 
-// ACCEPT / REJECT
 const respondRequest = async (req, res) => {
-  const { id } = req.params;
-  const { action } = req.body;
+  try {
+    const { id } = req.params;
+    const { action } = req.body;
 
-  const request = await FriendRequest.findById(id);
+    const request = await FriendRequest.findById(id);
 
-  if (!request || request.to.toString() !== req.user.id) {
-    return res.status(404).json({ error: "Friend request not found" });
+    if (!request) {
+      return res.status(404).json({ error: "Request not found" });
+    }
+
+    // only receiver can respond
+    if (request.to.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ error: "Not allowed" });
+    }
+
+    if (action === "accept") {
+      request.status = "accepted";
+    } else if (action === "reject") {
+      request.status = "rejected";
+    } else {
+      return res.status(400).json({ error: "Invalid action" });
+    }
+
+    await request.save();
+
+    return res.json({
+      message: `Request ${action}ed`,
+      request,
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
   }
-
-  if (action === "accept") {
-    request.status = "accepted";
-  } else if (action === "reject") {
-    request.status = "rejected";
-  } else {
-    request.status = "pending";
-  }
-
-  await request.save();
 };
-// GET MY REQUESTS
+
 const getMyRequests = async (req, res) => {
-  const requests = await FriendRequest.find({
-    to: req.user.id,
-    status: "pending",
-  }).populate("from", "username");
-  res.json(requests);
+  try {
+    const requests = await FriendRequest.find({
+      to: req.user._id,
+      status: "pending",
+    }).populate("from", "name email avatar");
+
+    return res.json(requests);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
 };
 
-export { sendRequest, respondRequest, getMyRequests };
+export default {
+  sendRequest,
+  respondRequest,
+  getMyRequests,
+};
