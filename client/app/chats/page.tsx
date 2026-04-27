@@ -24,6 +24,18 @@
  * - [ ] Typing indicators in chat window
  */
 
+import ChatList from "@/components/chat/ChatList";
+import ChatWindow from "@/components/chat/ChatWindow";
+import GroupChatSettings from "@/components/chat/GroupChatSettings";
+
 export default function ChatsPage() {
-  return <div>{/* Chats Page Implementation */}</div>;
+  return (
+    <div className="grid grid-cols-3">
+      <ChatList />
+      <ChatWindow/>
+      <div>
+        <GroupChatSettings/>
+      </div>
+    </div>
+  );
 }
