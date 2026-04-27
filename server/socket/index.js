@@ -6,7 +6,7 @@ import presenceSocket from "./presenceSocket.js";
 const onlineUsers = new Map();
 
 const initSocket = (io) => {
-  io.use(socketAuth);
+  // io.use(socketAuth);
 
   io.on("connection", (socket) => {
     const userId = socket.user._id.toString();
