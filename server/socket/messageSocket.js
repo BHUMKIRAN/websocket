@@ -27,7 +27,7 @@ const messageSocket = (io, socket, onlineUsers) => {
         "name avatar",
       );
 
-      io.to(chatId).emit("message:new", fullMessage);
+      io.to(chatId).emit("message:new", fullMessage); 
     } catch (error) {
       console.error("Error sending message:", error);
       socket.emit("message:error", { error: "Failed to send message" });
