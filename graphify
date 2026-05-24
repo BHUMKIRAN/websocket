@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Lightweight launcher for the repo-local graphify tool
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+python3 "$SCRIPT_DIR/tools/graphify_cli.py" "$@"
