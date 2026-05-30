@@ -1,0 +1,27 @@
+type User @table {
+  googleId: String!
+  displayName: String!
+  createdAt: Timestamp!
+  email: String
+  photoUrl: String
+}
+
+type ChatRoom @table {
+  name: String!
+  createdAt: Timestamp!
+  owner: User!
+  description: String
+}
+
+type Message @table {
+  content: String!
+  createdAt: Timestamp!
+  chatRoom: ChatRoom!
+  author: User!
+}
+
+type ChatRoomMembership @table(key: ["user", "chatRoom"]) {
+  joinedAt: Timestamp!
+  user: User!
+  chatRoom: ChatRoom!
+}

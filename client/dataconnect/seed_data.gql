@@ -1,0 +1,74 @@
+mutation SeedData @transaction @auth(level: PUBLIC, insecureReason: "This is a seed data mutation for development purposes.") {
+  user_insertMany(data: [
+    {
+      id: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+      googleId: "google123",
+      displayName: "Alice",
+      email: "alice@example.com",
+      createdAt: "2023-01-01T12:00:00Z"
+    },
+    {
+      id: "b1cffc00-0d1c-5af9-cc7e-7cc0ce491b22",
+      googleId: "google456",
+      displayName: "Bob",
+      email: "bob@example.com",
+      createdAt: "2023-01-01T12:05:00Z"
+    }
+  ])
+  chatRoom_insertMany(data: [
+    {
+      id: "c2dfe301-1e2d-6be0-dd8f-8dd1df5a2c33",
+      name: "General Chat",
+      description: "A general chat room for everyone.",
+      createdAt: "2023-01-01T12:10:00Z",
+      ownerId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
+    },
+    {
+      id: "d3eff402-2f3e-7cf1-ee90-9ee2ef6b3d44",
+      name: "Developers",
+      description: "Chat for developers.",
+      createdAt: "2023-01-01T12:15:00Z",
+      ownerId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
+    }
+  ])
+  chatRoomMembership_insertMany(data: [
+    {
+      userId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+      chatRoomId: "c2dfe301-1e2d-6be0-dd8f-8dd1df5a2c33",
+      joinedAt: "2023-01-01T12:11:00Z"
+    },
+    {
+      userId: "b1cffc00-0d1c-5af9-cc7e-7cc0ce491b22",
+      chatRoomId: "c2dfe301-1e2d-6be0-dd8f-8dd1df5a2c33",
+      joinedAt: "2023-01-01T12:12:00Z"
+    },
+    {
+      userId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+      chatRoomId: "d3eff402-2f3e-7cf1-ee90-9ee2ef6b3d44",
+      joinedAt: "2023-01-01T12:16:00Z"
+    }
+  ])
+  message_insertMany(data: [
+    {
+      id: "e4f00503-3g4f-8dg2-ff01-0ff3fg7c4e55",
+      content: "Hello everyone!",
+      createdAt: "2023-01-01T12:13:00Z",
+      chatRoomId: "c2dfe301-1e2d-6be0-dd8f-8dd1df5a2c33",
+      authorId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
+    },
+    {
+      id: "f5g11604-4h5g-9eh3-gg12-1gg4gh8d5f66",
+      content: "Hi Alice!",
+      createdAt: "2023-01-01T12:14:00Z",
+      chatRoomId: "c2dfe301-1e2d-6be0-dd8f-8dd1df5a2c33",
+      authorId: "b1cffc00-0d1c-5af9-cc7e-7cc0ce491b22"
+    },
+    {
+      id: "g6h22705-5i6h-0fi4-hh23-2hh5hi9e6g77",
+      content: "Welcome, developers!",
+      createdAt: "2023-01-01T12:17:00Z",
+      chatRoomId: "d3eff402-2f3e-7cf1-ee90-9ee2ef6b3d44",
+      authorId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
+    }
+  ])
+}

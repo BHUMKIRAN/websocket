@@ -1,0 +1,45 @@
+mutation CreateUser($email: String!, $displayName: String!, $photoUrl: String) @auth(level: USER) {
+  user_upsert(
+    data: {
+      id_expr: "auth.uid",
+      email: $email,
+      displayName: $displayName,
+      photoUrl: $photoUrl,
+      googleId: "placeholder", # Google ID is required, but not provided in user data
+      createdAt_expr: "request.time"
+    }
+  ) {
+    id
+  }
+}
+
+mutation UpdateUserDisplayName($displayName: String!) @auth(level: USER) {
+  user_update(
+    key: { id_expr: "auth.uid" },
+    data: { displayName: $displayName }
+  ) {
+    id
+  }
+}
+
+query GetMyChatRooms @auth(level: USER) {
+  chatRooms(where: { ownerId: { eq_expr: "auth.uid" } }) {
+    id
+    name
+    description
+    createdAt
+  }
+}
+
+mutation CreateChatRoom($name: String!, $description: String) @auth(level: USER) {
+  chatRoom_insert(
+    data: {
+      name: $name,
+      description: $description,
+      ownerId_expr: "auth.uid",
+      createdAt_expr: "request.time"
+    }
+  ) {
+    id
+  }
+}
